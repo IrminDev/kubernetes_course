@@ -2,7 +2,7 @@ const express = require('express');
 const fs = require('fs');
 const path = require('path');
 const app = express();
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 3001;
 const logFilePath = 'files/counter.txt';
 
 // Create a directory for the logs if it doesn't exist

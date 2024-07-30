@@ -3,7 +3,12 @@ const fs = require('fs');
 const app = express();
 const port = process.env.PORT || 3000;
 const logFilePath = 'files/data.txt';
-const logCounterPath = 'files/counter.txt';
+const path = require('path');
+const axios = require('axios');
+const urlPingPong = process.env.PING_PONG_URL || 'http://localhost:3001';
+
+// Create a directory for the logs if it doesn't exist
+fs.mkdirSync(path.dirname(logFilePath), { recursive: true });
 
 // Function to generate the log
 function generateLog() {
@@ -18,20 +23,19 @@ setInterval(generateLog, 5000);
 
 // Endpoint para servir el contenido del log
 app.get('/', (req, res) => {
-  fs.readFile(logFilePath, 'utf8', (err, data) => {
+  fs.readFile(logFilePath, 'utf8', async (err, data) => {
     if (err) {
       res.status(500).send('Error reading log timestamp file');
       console.log(err);
       return;
     }
-    fs.readFile(logCounterPath, 'utf8', (err, counterData) => {
-      if (err) {
-        res.status(500).send('Error reading counter file');
-        console.log(err);
-        return;
-      }
-      res.send(`<pre>${data}</pre><pre>${counterData}</pre>`);
-    });
+
+    console.log('Getting counter from ping-pong service');
+    // Get the counter from ping-pong service
+    const response = await axios.get(`${urlPingPong}/pingpong`);
+    const counter = response.data;
+
+    res.send(`<pre>${data}ping pong ${counter}</pre>`);
   });
 });
 
