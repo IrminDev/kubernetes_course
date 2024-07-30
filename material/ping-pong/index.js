@@ -3,7 +3,7 @@ const fs = require('fs');
 const path = require('path');
 const app = express();
 const port = process.env.PORT || 3000;
-const logFilePath = '/counter.txt';
+const logFilePath = 'files/counter.txt';
 
 // Create a directory for the logs if it doesn't exist
 fs.mkdirSync(path.dirname(logFilePath), { recursive: true });
@@ -19,6 +19,7 @@ app.get('/pingpong', (req, res) => {
     fs.readFile(logFilePath, 'utf8', (err, data) => {
         if (err) {
             res.status(500).send('Error reading log file');
+            console.log(err);
             return;
         }
         const counter = parseInt(data) + 1;

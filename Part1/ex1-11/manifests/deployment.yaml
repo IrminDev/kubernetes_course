@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: exercise-1-11
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: exercise-1-11
+  template:
+    metadata:
+      labels:
+        app: exercise-1-11
+    spec:
+      volumes: # Define volume
+        - name: shared-image
+          persistentVolumeClaim:
+            claimName: image-claim
+      containers:
+        - name: log-output-endpoint
+          image: irmindev/exercise-1-1:latest
+          imagePullPolicy: Always
+          env:
+            - name: PORT
+              value: "3000"
+          volumeMounts: # Mount volume
+          - name: shared-image
+            mountPath: /usr/src/app/files
+          ports:
+            - containerPort: 3000
+        - name: ping-pong
+          image: irmindev/exercise-1-9
+          imagePullPolicy: Always
+          env:
+            - name: PORT
+              value: "3001"
+          volumeMounts: # Mount volume
+          - name: shared-image
+            mountPath: /usr/src/app/files
+          ports:
+            - containerPort: 3001
