@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: log-output
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: log-output
+  template:
+    metadata:
+      labels:
+        app: log-output
+    spec:
+      volumes: # Define volume
+        - name: shared-image
+          emptyDir: {}
+      containers:
+        - name: log-output-endpoint
+          image: irmindev/exercise-1-1:latest
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: PORT
+              value: "3000"
+          volumeMounts: # Mount volume
+          - name: shared-image
+            mountPath: /usr/src/app/files
+          ports:
+            - containerPort: 3000
+        - name: log-output-writer
+          image: irmindev/log-output-writer:latest
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: PORT
+              value: "3001"
+          volumeMounts: # Mount volume
+          - name: shared-image
+            mountPath: /usr/src/app/files
+          ports:
+            - containerPort: 3001
