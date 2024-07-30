@@ -19,7 +19,7 @@ spec:
       containers:
         - name: api-server
           image: irmindev/api-server:latest
-          imagePullPolicy: IfNotPresent
+          imagePullPolicy: Always
           env:
             - name: PORT
               value: "8080"
