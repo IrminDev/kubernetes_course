@@ -16,7 +16,7 @@ spec:
       containers:
         - name: ping-pong
           image: irmindev/exercise-1-9:latest
-          imagePullPolicy: Always
+          imagePullPolicy: IfNotPresent
           env:
             - name: PORT
               value: "3001"

@@ -1,31 +1,13 @@
 const express = require('express');
-const fs = require('fs');
-const path = require('path');
 const app = express();
 const port = process.env.PORT || 3001;
-const logFilePath = 'files/counter.txt';
-
-// Create a directory for the logs if it doesn't exist
-fs.mkdirSync(path.dirname(logFilePath), { recursive: true });
-
-// Function to generate the log
-function generateLog() {
-    const message = "0";
-    fs.writeFileSync(logFilePath, message); 
-}
+const counterService = require('./services/counterService');
 
 // Increment the counter every get request
 app.get('/pingpong', (req, res) => {
-    fs.readFile(logFilePath, 'utf8', (err, data) => {
-        if (err) {
-            res.status(500).send('Error reading log file');
-            console.log(err);
-            return;
-        }
-        const counter = parseInt(data) + 1;
-        fs.writeFileSync(logFilePath, `${counter}`);
-        res.send(`<pre>ping pong ${counter}</pre>`);
-    });
+    counterService.incrementCounter();
+    const count = counterService.getCounter();
+    res.send(`Ping-pongs: ${count}`);
 });
 
 app.listen(port, () => {
