@@ -22,7 +22,7 @@ public class TodoController {
     @RequestMapping("/")
     public String showHomePage(Model model) {
         RestTemplate restTemplate = new RestTemplate();
-        ResponseEntity<List> response = restTemplate.getForEntity(backendUrl + "/todo", List.class);
+        ResponseEntity<List> response = restTemplate.getForEntity(backendUrl + "/todos", List.class);
         List<Map<String, String>> todos = response.getBody();
         
         model.addAttribute("todos", todos);
@@ -33,7 +33,7 @@ public class TodoController {
     @PostMapping("/addTodo")
     public String addTodo(@RequestParam("inputField") String todo) {
         RestTemplate restTemplate = new RestTemplate();
-        restTemplate.postForEntity(backendUrl + "/todo", Map.of("todo", todo), Void.class);
+        restTemplate.postForEntity(backendUrl + "/todos", Map.of("todo", todo), Void.class);
         return "redirect:/";
     }
 }
