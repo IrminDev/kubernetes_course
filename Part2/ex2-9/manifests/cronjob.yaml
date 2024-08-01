@@ -1,0 +1,15 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: daily-todo-cronjob
+  namespace: project
+spec:
+  schedule: "0 * * * *"  # Ejecutar cada hora
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - name: daily-todo
+            image: irmindev/daily-todo:latest
+          restartPolicy: OnFailure
