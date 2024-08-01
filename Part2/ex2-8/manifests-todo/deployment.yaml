@@ -16,7 +16,7 @@ spec:
       containers:
         - name: todo-backend
           image: irmindev/todo-backend:latest
-          imagePullPolicy: Always
+          imagePullPolicy: IfNotPresent
           env:
             - name: PORT
               value: "8000"

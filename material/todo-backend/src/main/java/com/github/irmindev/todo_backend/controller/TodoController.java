@@ -3,7 +3,6 @@ package com.github.irmindev.todo_backend.controller;
 import com.github.irmindev.todo_backend.model.Todo;
 import com.github.irmindev.todo_backend.repository.TodoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -22,6 +21,12 @@ public class TodoController {
 
     @PostMapping
     public Todo createTodo(@RequestBody Todo todo) {
+        if(todo.getTodo().length() > 140) {
+            System.out.println("Todo is too long");
+            return null;
+        }
+
+        System.out.println("Todo is valid: " + todo.getTodo());
         return todoRepository.save(todo);
     }
 }
