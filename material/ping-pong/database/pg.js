@@ -13,6 +13,13 @@ pool.query('CREATE TABLE IF NOT EXISTS counter (count INT)', (err, res) => {
         console.error('Error creating table', err);
     } else {
         console.log('Table created');
+        pool.query('INSERT INTO counter (count) VALUES (0)', (err, res) => {
+            if (err) {
+                console.error('Error inserting data', err);
+            } else {
+                console.log('Data inserted');
+            }
+        });
     }
 });
 

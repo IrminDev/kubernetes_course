@@ -6,8 +6,12 @@ const counterService = require('./services/counterService');
 // Increment the counter every get request
 app.get('/pingpong', (req, res) => {
     counterService.incrementCounter();
-    const count = counterService.getCounter();
-    res.send(`Ping-pongs: ${count}`);
+    const count = counterService.getCounter().then(count => {
+        res.send(`Ping-pongs: ${count}`);
+    }).catch(err => {
+        console.error('Error getting counter', err);
+        res.status(500).send('Error getting counter');
+    })
 });
 
 app.listen(port, () => {
