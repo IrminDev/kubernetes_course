@@ -12,17 +12,6 @@ const envMessage = process.env.MESSAGE;
 // Create a directory for the logs if it doesn't exist
 fs.mkdirSync(path.dirname(logFilePath), { recursive: true });
 
-// Function to generate the log
-function generateLog() {
-  const message = new Date().toISOString();
-  // Add a random hash to message
-  const hash = Math.random().toString(36).substring(7);
-  fs.writeFileSync(logFilePath, `${message} ${hash}\n`);
-}
-
-// Generate the log every 5 seconds
-setInterval(generateLog, 5000);
-
 // Endpoint para servir el contenido del log
 app.get('/', (req, res) => {
   fs.readFile(logFilePath, 'utf8', async (err, data) => {

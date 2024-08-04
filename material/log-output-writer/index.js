@@ -1,11 +1,10 @@
 // Create an app that generete a time stamp every 5 seconds and write it to a file called 'time-stamp.txt'. The app should also have a route that reads the file and returns the time stamp.
-
 const express = require('express');
 const fs = require('fs');
 const path = require('path');
 const app = express();
-const port = process.env.PORT || 3000;
-const logFilePath = 'files/time-stamp.txt';
+const port = process.env.PORT || 3002;
+const logFilePath = 'files/data.txt';
 
 // Create a directory for the logs if it doesn't exist
 fs.mkdirSync(path.dirname(logFilePath), { recursive: true });
