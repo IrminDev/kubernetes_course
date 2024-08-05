@@ -11,11 +11,9 @@ spec:
     canary:
       steps:
       - setWeight: 50
-      - pause:
-          duration: 30s
-      - setWeight: 50
-      - pause:
-          duration: 30s
+      - analysis:
+          templates:
+          - templateName: restart-rate-backend
   template:
     metadata:
       labels:
@@ -23,7 +21,7 @@ spec:
     spec:
       containers:
         - name: todo-backend
-          image: PROJECT/IMAGE2
+          image: irmindev/todo-backend
           imagePullPolicy: IfNotPresent
           env:
             - name: PORT
@@ -54,10 +52,3 @@ spec:
               port: 8000
             initialDelaySeconds: 30
             periodSeconds: 10
-      strategy:
-        canary:
-          steps:
-          - setWeight: 50
-          - analysis:
-              templates:
-              - templateName: restart-rate
