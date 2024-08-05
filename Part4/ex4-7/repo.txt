@@ -1,0 +1,1 @@
+This is the repo for the exercise: https://github.com/IrminDev/ping-pong-app
