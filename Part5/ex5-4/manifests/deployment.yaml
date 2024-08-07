@@ -1,0 +1,54 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-deployment
+  labels:
+    app: nginx
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nginx
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      initContainers:
+      - name: init-wiki
+        image: alpine:3.20.2
+        command: ['sh', '-c', 'wget -qO- https://en.wikipedia.org/wiki/Kubernetes > /www/index.html']
+        volumeMounts:
+        - name: html
+          mountPath: /www
+      - name: random-curler
+        image: alpine:3.20.2
+        command: ['sh', '-c', 'wget -qO- https://en.wikipedia.org/wiki/Special:Random > /www/index.html && sleep 600']
+        restartPolicy: Always
+        volumeMounts:
+        - name: html
+          mountPath: /www
+      containers:
+      - name: nginx
+        image: nginx:stable-perl
+        ports:
+        - containerPort: 80
+        volumeMounts:
+        - name: html
+          mountPath: /usr/share/nginx/html
+      volumes:
+      - name: html
+        emptyDir: {}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx-svc
+spec:
+  type: LoadBalancer
+  selector:
+    app: nginx
+  ports:
+    - port: 80
+      protocol: TCP
+      targetPort: 80
