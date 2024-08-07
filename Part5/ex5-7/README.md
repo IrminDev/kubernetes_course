@@ -1,0 +1,17 @@
+# CNCF Landscape
+- **Helm**: I used helm to do some installations like prometheus.
+- **Gradle**: I used gradle outside the course to develop the todo project.
+- **Argo**: I used Argo as GitOps tool for the ping-pong and todo-app. 
+- **Kubernetes**: I used Kubernetes to orchestrate containers.
+- **Knative**: I used Knative to implement the serverless to ping pong app.
+- **Nginx**: I've used nginx to ocnfigure como services for deployments.
+- **Linkerd**: I used linkerd to implement the service mesh.
+- **etcd**: I've used etcd inderectly through kubernetes (k3d).
+- **Google persistent disk**: I used GPC to storage the DB backup for todo app.
+- **Flannel**: I've used flanned inderectly through k3s.
+- **PostgreSQL**: I used postgres to store the database for my apps.
+- **NATS**: I've used NATS to implement the messaging system for todo app.
+- **SOPS**: I used SOPS to encrypt the information of my secrets.
+- **Google Container Registry**: I used GCR to store the images of the containers for my apps.
+- **Prometheus**: I used prometheus to get the information of my cluster.
+- **Grafana**: I used grafana to visualize the information served by prometheus.
