@@ -1,0 +1,31 @@
+apiVersion: serving.knative.dev/v1
+kind: Service
+metadata:
+  name: ping-pong
+spec:
+  template:
+    spec:
+      containers:
+      - image: irmindev/ping-pong:d3554713c43e11789dd00841873f95e0992dc1ca
+        env:
+        - name: DB_USER
+          valueFrom:
+            secretKeyRef:
+              name: postgres-pingpong-credentials
+              key: POSTGRES_USER
+        - name: DB_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: postgres-pingpong-credentials
+              key: POSTGRES_PASSWORD
+        - name: DB_DATABASE
+          valueFrom:
+            secretKeyRef:
+              name: postgres-pingpong-credentials
+              key: POSTGRES_DB
+        - name: DB_HOST
+          value: postgres-ping-pong-svc
+        - name: DB_PORT
+          value: "5432"
+        ports:
+        - containerPort: 8080
